@@ -27,6 +27,7 @@ type InitParams struct {
 	ProjectOrWorkspacePath string
 	SchemeName             string
 	ConfigurationName      string
+	AdditionalXcodebuildOptions []string
 }
 
 // NewFactory ...

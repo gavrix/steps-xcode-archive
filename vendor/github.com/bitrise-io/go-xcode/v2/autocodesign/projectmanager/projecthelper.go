@@ -27,6 +27,7 @@ type ProjectHelper struct {
 	UITestTargets    []xcodeproj.Target
 	XcProj           xcodeproj.XcodeProj
 	Configuration    string
+	AdditionalXcodebuildOptions []string
 
 	buildSettingsCache map[string]map[string]serialized.Object // target/config/buildSettings(serialized.Object)
 }
@@ -34,7 +35,7 @@ type ProjectHelper struct {
 // NewProjectHelper checks the provided project or workspace and generate a ProjectHelper with the provided scheme and configuration
 // Previously in the ruby version the initialize method did the same
 // It returns a new ProjectHelper, whose Configuration field contains is the selected configuration (even when configurationName parameter is empty)
-func NewProjectHelper(projOrWSPath, schemeName, configurationName string) (*ProjectHelper, error) {
+func NewProjectHelper(projOrWSPath, schemeName, configurationName string, additionalXcodebuildOptions []string) (*ProjectHelper, error) {
 	if exits, err := pathutil.IsPathExists(projOrWSPath); err != nil {
 		return nil, err
 	} else if !exits {
@@ -82,6 +83,7 @@ func NewProjectHelper(projOrWSPath, schemeName, configurationName string) (*Proj
 		UITestTargets:    uiTestTargets,
 		XcProj:           xcproj,
 		Configuration:    conf,
+		AdditionalXcodebuildOptions: additionalXcodebuildOptions,
 	}, nil
 }
 
@@ -224,7 +226,7 @@ func (p *ProjectHelper) targetBuildSettings(name, conf string) (serialized.Objec
 		}
 	}
 
-	settings, err := p.XcProj.TargetBuildSettings(name, conf)
+	settings, err := p.XcProj.TargetBuildSettings(name, conf, p.AdditionalXcodebuildOptions...)
 	if err != nil {
 		return nil, err
 	}

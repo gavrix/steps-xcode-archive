@@ -39,8 +39,8 @@ type XcodeProj struct {
 	Path string
 }
 
-func (p XcodeProj) buildSettingsFilePath(target, configuration, key string) (string, error) {
-	buildSettings, err := p.TargetBuildSettings(target, configuration)
+func (p XcodeProj) buildSettingsFilePath(target, configuration, key string, customOptions ...string) (string, error) {
+	buildSettings, err := p.TargetBuildSettings(target, configuration, customOptions...)
 	if err != nil {
 		return "", err
 	}
@@ -58,8 +58,8 @@ func (p XcodeProj) buildSettingsFilePath(target, configuration, key string) (str
 }
 
 // TargetCodeSignEntitlementsPath ...
-func (p XcodeProj) TargetCodeSignEntitlementsPath(target, configuration string) (string, error) {
-	return p.buildSettingsFilePath(target, configuration, "CODE_SIGN_ENTITLEMENTS")
+func (p XcodeProj) TargetCodeSignEntitlementsPath(target, configuration string, customOptions ...string) (string, error) {
+	return p.buildSettingsFilePath(target, configuration, "CODE_SIGN_ENTITLEMENTS", customOptions...)
 }
 
 // ForceTargetCodeSignEntitlement updates the project descriptor behind p. It
@@ -100,8 +100,8 @@ func (p XcodeProj) TargetCodeSignEntitlements(target, configuration string) (ser
 }
 
 // TargetInfoplistPath ...
-func (p XcodeProj) TargetInfoplistPath(target, configuration string) (string, error) {
-	return p.buildSettingsFilePath(target, configuration, "INFOPLIST_FILE")
+func (p XcodeProj) TargetInfoplistPath(target, configuration string, customOptions ...string) (string, error) {
+	return p.buildSettingsFilePath(target, configuration, "INFOPLIST_FILE", customOptions...)
 }
 
 // DependentTargetsOfTarget returns with all dependencies of a given target, including the transitive dependencies.
@@ -192,8 +192,8 @@ func (p XcodeProj) ForceTargetBundleID(target, configuration, bundleID string) e
 }
 
 // TargetBundleID ...
-func (p XcodeProj) TargetBundleID(target, configuration string) (string, error) {
-	buildSettings, err := p.TargetBuildSettings(target, configuration)
+func (p XcodeProj) TargetBundleID(target, configuration string, customOptions ...string) (string, error) {
+	buildSettings, err := p.TargetBuildSettings(target, configuration, customOptions...)
 	if err != nil {
 		return "", err
 	}
