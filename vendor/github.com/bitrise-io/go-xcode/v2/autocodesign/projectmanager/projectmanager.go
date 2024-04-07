@@ -42,7 +42,7 @@ func (f *Factory) Create() (Project, error) {
 
 // NewProject ...
 func NewProject(params InitParams) (Project, error) {
-	projectHelper, err := NewProjectHelper(params.ProjectOrWorkspacePath, params.SchemeName, params.ConfigurationName)
+	projectHelper, err := NewProjectHelper(params.ProjectOrWorkspacePath, params.SchemeName, params.ConfigurationName, params.AdditionalXcodebuildOptions)
 	if err != nil {
 		return Project{}, err
 	}
